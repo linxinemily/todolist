@@ -11,15 +11,11 @@
           <button>Completed</button>
         </div>
 
-        <div class="card mb-3">
-          <div class="card-body">
-            <input v-model="form.title" class="form-control" type="text">
-          </div>
-          <div class="card-footer">
-            <button>Cancel</button>
-            <button @click="addTask()">Add Task</button>
-          </div>
-        </div>
+        <task-form
+          class="mb-3"
+          @submit="addTask"
+          submitText="Add Task">
+        </task-form>
 
         <h3>Items</h3>
 
@@ -37,15 +33,13 @@
             <!-- end normal -->
 
             <!-- editing -->
-            <div class="card" v-else>
-              <div class="card-body">
-                <input v-model="form.title" class="form-control" type="text">
-              </div>
-              <div class="card-footer">
-                <button>Cancel</button>
-                <button @click="addTask()">Add Task</button>
-              </div>
-            </div>
+            <task-form v-else
+              class="mb-3"
+              :item="item"
+              @submit="updateTask"
+              @cancel="cancelEditing"
+              submitText="Update Task">
+            </task-form>
             <!-- end editing -->
 
           </div>
@@ -60,7 +54,12 @@
 </template>
 
 <script>
+import TaskForm from './components/TaskForm.vue'
+
 export default {
+  components: {
+    TaskForm
+  },
   name: 'app',
   data () {
     return {
@@ -81,9 +80,9 @@ export default {
     }
   },
   methods: {
-    addTask () {
+    addTask (form) {
       // 1. copy form data
-      let cloned = Object.assign({} , this.form)
+      let cloned = Object.assign({} , form)
       // 2. push into items
       this.items.unshift(cloned)
       // 3. clear origin form
@@ -91,6 +90,13 @@ export default {
     },
     editTask (item) {
       this.editingItem = item
+    },
+    updateTask (form) {
+      this.editingItem.title = form.title
+      this.editingItem = null
+    },
+    cancelEditing () {
+      this.editingItem = null
     },
     clearForm () {
       this.form.title = ''
