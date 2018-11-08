@@ -5,6 +5,7 @@
         <div class="card-body" >
         <div class="float-left">{{ item.title }}</div>
         <button @click="editTask(item)" class="btn btn-primary float-right">Edit</button>
+        <button @click="deleteTask(item)" class="btn btn-danger float-right">Delete</button>
         </div>
     </div>
     <!-- end normal -->
@@ -28,6 +29,6 @@ export default {
     components: {
         TaskForm
     },
-    props: ['item', 'editingItem', 'editTask', 'updateTask', 'cancelEditing']
+    props: ['item', 'editingItem', 'editTask', 'updateTask', 'cancelEditing', 'deleteTask']
 }
 </script>

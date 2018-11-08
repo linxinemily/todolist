@@ -27,6 +27,7 @@
             :editingItem="editingItem"
             :editTask="editTask"
             :updateTask="updateTask"
+            :deleteTask="deleteTask"
             :cancelEditing="cancelEditing">
           </task-item>
         </div>
@@ -81,6 +82,9 @@ export default {
     updateTask (form) {
       this.editingItem.title = form.title
       this.editingItem = null
+    },
+    deleteTask (item) {
+      this.items.splice(this.items.indexOf(item), 1)
     },
     cancelEditing () {
       this.editingItem = null
