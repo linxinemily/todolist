@@ -6,9 +6,9 @@
       <div class="col-6 md-offset-4">
 
         <div class="mb-3">
-          <button>My Task</button>
-          <button>In Progress</button>
-          <button>Completed</button>
+          <button @click="filter('all')">My Task</button>
+          <button @click="filter('in_progress')">In Progress</button>
+          <button @click="filter('complete')">Completed</button>
         </div>
 
         <task-form
@@ -21,7 +21,7 @@
 
         <div class="items">
           <task-item
-            v-for="item in items"
+            v-for="item in filtered"
             v-bind:key="item.id"
             :item="item"
             :editingItem="editingItem"
@@ -52,6 +52,7 @@ export default {
   name: 'app',
   data () {
     return {
+      filteringBy: 'all',
       editingItem: '',
       form: {
         title: '',
@@ -68,6 +69,29 @@ export default {
           completed: false
         },
       ]
+    }
+  },
+  computed: {
+    filtered () {
+      let items = []
+      switch (this.filteringBy) {
+        case 'all':
+          return this.items
+        case 'complete':
+          for (let item of this.items) {
+            if (item.completed) {
+              items.push(item)
+            }
+          }
+          return items
+        case 'in_progress':
+          for (let item of this.items) {
+            if (!item.completed) {
+              items.push(item)
+            }
+          }
+          return items
+      }
     }
   },
   methods: {
@@ -97,6 +121,9 @@ export default {
     },
     clearForm () {
       this.form.title = ''
+    },
+    filter (type) {
+      this.filteringBy = type
     }
   }
 }
