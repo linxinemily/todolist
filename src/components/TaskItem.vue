@@ -3,7 +3,10 @@
     <!-- normal -->
     <div class="card" v-if="editingItem !== item">
         <div class="card-body" >
-        <div class="float-left">{{ item.title }}</div>
+        <div class="float-left">
+            <input @change="toggleTask(item)" type="checkbox" :checked="item.completed">
+            <span>{{ item.title }}</span>
+        </div>
         <button @click="editTask(item)" class="btn btn-primary float-right">Edit</button>
         <button @click="deleteTask(item)" class="btn btn-danger float-right">Delete</button>
         </div>
@@ -29,6 +32,6 @@ export default {
     components: {
         TaskForm
     },
-    props: ['item', 'editingItem', 'editTask', 'updateTask', 'cancelEditing', 'deleteTask']
+    props: ['item', 'editingItem', 'editTask', 'updateTask', 'cancelEditing', 'deleteTask', 'toggleTask']
 }
 </script>

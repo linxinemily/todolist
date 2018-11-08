@@ -28,6 +28,7 @@
             :editTask="editTask"
             :updateTask="updateTask"
             :deleteTask="deleteTask"
+            :toggleTask="toggleTask"
             :cancelEditing="cancelEditing">
           </task-item>
         </div>
@@ -59,10 +60,12 @@ export default {
         {
           id: 1,
           title: 'a',
+          completed: false
         },
         {
           id: 2,
           title: 'b',
+          completed: false
         },
       ]
     }
@@ -75,6 +78,9 @@ export default {
       this.items.unshift(cloned)
       // 3. clear origin form
       this.clearForm()
+    },
+    toggleTask (item) {
+      item.completed = !item.completed
     },
     editTask (item) {
       this.editingItem = item
