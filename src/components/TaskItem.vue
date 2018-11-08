@@ -7,6 +7,7 @@
             <input @change="toggleTask(item)" type="checkbox" :checked="item.completed">
             <span>{{ item.title }}</span>
         </div>
+        <button @click="starTask(item)" class="btn btn-warning float-right">Star</button>
         <button @click="editTask(item)" class="btn btn-primary float-right">Edit</button>
         <button @click="deleteTask(item)" class="btn btn-danger float-right">Delete</button>
         </div>
@@ -32,6 +33,6 @@ export default {
     components: {
         TaskForm
     },
-    props: ['item', 'editingItem', 'editTask', 'updateTask', 'cancelEditing', 'deleteTask', 'toggleTask']
+    props: ['item', 'editingItem', 'editTask', 'updateTask', 'cancelEditing', 'deleteTask', 'toggleTask', 'starTask']
 }
 </script>
