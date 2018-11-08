@@ -20,29 +20,15 @@
         <h3>Items</h3>
 
         <div class="items">
-          <div class="item mb-3"
+          <task-item
             v-for="item in items"
-            v-bind:key="item.id">
-            <!-- normal -->
-            <div class="card" v-if="editingItem !== item">
-              <div class="card-body" >
-                <div class="float-left">{{ item.title }}</div>
-                <button @click="editTask(item)" class="btn btn-primary float-right">Edit</button>
-              </div>
-            </div>
-            <!-- end normal -->
-
-            <!-- editing -->
-            <task-form v-else
-              class="mb-3"
-              :item="item"
-              @submit="updateTask"
-              @cancel="cancelEditing"
-              submitText="Update Task">
-            </task-form>
-            <!-- end editing -->
-
-          </div>
+            v-bind:key="item.id"
+            :item="item"
+            :editingItem="editingItem"
+            :editTask="editTask"
+            :updateTask="updateTask"
+            :cancelEditing="cancelEditing">
+          </task-item>
         </div>
 
       </div>
@@ -55,10 +41,11 @@
 
 <script>
 import TaskForm from './components/TaskForm.vue'
+import TaskItem from './components/TaskItem.vue'
 
 export default {
   components: {
-    TaskForm
+    TaskForm, TaskItem
   },
   name: 'app',
   data () {

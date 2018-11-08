@@ -1,0 +1,33 @@
+<template>
+    <div class="item mb-3">
+    <!-- normal -->
+    <div class="card" v-if="editingItem !== item">
+        <div class="card-body" >
+        <div class="float-left">{{ item.title }}</div>
+        <button @click="editTask(item)" class="btn btn-primary float-right">Edit</button>
+        </div>
+    </div>
+    <!-- end normal -->
+
+    <!-- editing -->
+    <task-form v-else
+        class="mb-3"
+        :item="item"
+        @submit="updateTask"
+        @cancel="cancelEditing"
+        submitText="Update Task">
+    </task-form>
+    <!-- end editing -->
+    </div>
+</template>
+
+<script>
+import TaskForm from './TaskForm.vue'
+
+export default {
+    components: {
+        TaskForm
+    },
+    props: ['item', 'editingItem', 'editTask', 'updateTask', 'cancelEditing']
+}
+</script>
