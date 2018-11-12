@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import TaskForm from './components/TaskForm.vue'
 import TaskItem from './components/TaskItem.vue'
 
@@ -60,23 +61,15 @@ export default {
         completed: false,
         stared: false
       },
-      items: [
-        {
-          id: 1,
-          title: 'a',
-          completed: false,
-          stared: false,
-          created_at: Date.now()
-        },
-        {
-          id: 2,
-          title: 'b',
-          completed: false,
-          stared: false,
-          created_at: Date.now() - 1
-        },
-      ]
+      items: []
     }
+  },
+  mounted () {
+    // call api to get task lists
+    axios.get('http://localhost:3000/task')
+      .then((response) => {
+        this.items = response.data
+      })
   },
   computed: {
     filtered () {
@@ -111,6 +104,9 @@ export default {
       this.items.unshift(cloned)
       // 3. clear origin form
       this.clearForm()
+
+      // 4. save to json server
+      axios.post('http://localhost:3000/task', cloned)
     },
     starTask (item) {
       item.stared = !item.stared
@@ -138,16 +134,19 @@ export default {
     },
     toggleTask (item) {
       item.completed = !item.completed
+      axios.patch(`http://localhost:3000/task/${item.id}`, item)
     },
     editTask (item) {
       this.editingItem = item
     },
     updateTask (form) {
       this.editingItem.title = form.title
+      axios.patch(`http://localhost:3000/task/${this.editingItem.id}`, this.editingItem)
       this.editingItem = null
     },
     deleteTask (item) {
       this.items.splice(this.items.indexOf(item), 1)
+      axios.delete(`http://localhost:3000/task/${item.id}`)
     },
     cancelEditing () {
       this.editingItem = null
