@@ -5,9 +5,9 @@
         <div class="card-body" >
         <div class="float-left">
             <input @change="toggleTask(item)" type="checkbox" :checked="item.completed">
-            <span>{{ item.title }}</span>
+            <span>{{ item.title }} - {{ item.created_at }}</span>
         </div>
-        <button @click="starTask(item)" class="btn btn-warning float-right">Star</button>
+        <button @click="starTask(item)" class="btn btn-warning float-right" :class="{ active: item.stared }">Star</button>
         <button @click="editTask(item)" class="btn btn-primary float-right">Edit</button>
         <button @click="deleteTask(item)" class="btn btn-danger float-right">Delete</button>
         </div>

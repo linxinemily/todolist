@@ -57,19 +57,23 @@ export default {
       editingItem: '',
       form: {
         title: '',
+        completed: false,
+        stared: false
       },
       items: [
         {
           id: 1,
           title: 'a',
           completed: false,
-          stared: false
+          stared: false,
+          created_at: Date.now()
         },
         {
           id: 2,
           title: 'b',
           completed: false,
-          stared: false
+          stared: false,
+          created_at: Date.now() - 1
         },
       ]
     }
@@ -101,6 +105,8 @@ export default {
     addTask (form) {
       // 1. copy form data
       let cloned = Object.assign({} , form)
+      cloned.id = Date.now()
+      cloned.created_at = Date.now()
       // 2. push into items
       this.items.unshift(cloned)
       // 3. clear origin form
@@ -108,6 +114,27 @@ export default {
     },
     starTask (item) {
       item.stared = !item.stared
+      if (item.stared) {
+        this.items.splice(this.items.indexOf(item), 1)
+        this.items.unshift(item)
+      } else {
+        this.items.splice(this.items.indexOf(item), 1)
+
+        let lastStarPosition = -1
+        for (let i = 0; i < this.items.length; i++) {
+          if (this.items[i].stared) {
+            lastStarPosition = i
+          }
+        }
+
+        let position = lastStarPosition
+        for (let i = lastStarPosition + 1; i < this.items.length; i++) {
+          if (item.created_at < this.items[i].created_at) {
+            position = i
+          }
+        }
+        this.items.splice(position + 1, 0, item)
+      }
     },
     toggleTask (item) {
       item.completed = !item.completed
